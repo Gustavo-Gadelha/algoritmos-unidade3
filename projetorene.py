@@ -11,11 +11,6 @@ bancodedados = [{'email': 'login',
                               [4, 'banana', 4, 40]]
                  }]
 
-with open('produtos.txt', 'w') as f:
-    for pessoa in bancodedados:
-        for p in pessoa['produtos'][1]:
-            f.write(f'{p}')
-
 escolha = -1
 while escolha != 0:
     print('\nMenu de acesso',
