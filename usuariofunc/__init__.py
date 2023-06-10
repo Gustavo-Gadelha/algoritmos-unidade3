@@ -1,14 +1,21 @@
-def cadastrarusuario(bancodedados):
-    email = str(input('Digite o seu e-mail: '))
-    senha = str(input('Digite a sua senha: '))
+def cadastrar_usuario(bancodedados):
+    email = str(input('Digite seu e-mail: '))
+    senha = str(input('Digite sua senha: '))
+    nome = str(input('Digite seu nome: '))
 
-    for vendedor in bancodedados:
-        while vendedor['email'] == email or vendedor['senha'] == senha:
-            print('Email ou senha já estão sendo usados!')
-            email = str(input('Digite outro e-mail: '))
-            senha = str(input('Digite outra senha: '))
+    while email == '':
+        email = str(input('O e-mail não foi preenchido! Digite seu e-mail: '))
+    while senha == '':
+        senha = str(input('A senha não foi preenchida! Digite sua senha: '))
+    while nome == '':
+        nome = str(input('Nome inválido! Digite o seu nome novamente: '))
 
-    nome = str(input('Digite o seu nome: '))
+    for usuario in bancodedados:
+        while usuario['email'] == email:
+            email = str(input('Esse e-mail já está sendo usado! Digite outro e-mail: '))
+
+        while usuario['senha'] == senha:
+            senha = str(input('Essa senha já está sendo usada! Digite outra senha: '))
 
     cadastro = {'email': email,
                 'senha': senha,
@@ -18,10 +25,10 @@ def cadastrarusuario(bancodedados):
                 'token': None}
 
     bancodedados.append(cadastro)
-    print('Cadastro do usuário realizado com sucesso!')
+    print('Cadastro de usuário realizado com sucesso!')
 
 
-def autenticarlogin(login, senha, bancodedados):
+def autenticar_login(bancodedados, login, senha):
     for usuario in bancodedados:
         if usuario['email'] == login and usuario['senha'] == senha:
             print('\nVocê deseja acessar como:'
@@ -30,7 +37,7 @@ def autenticarlogin(login, senha, bancodedados):
 
             escolha = int(input('\nDigite sua escolha: '))
             while escolha != 1 and escolha != 2:
-                escolha = int(input('Valor invalido, digite novamente: '))
+                escolha = int(input('Opção inválida, digite novamente: '))
 
             if escolha == 1:
                 usuario['token'] = 'cliente'
@@ -40,16 +47,17 @@ def autenticarlogin(login, senha, bancodedados):
 
             return usuario
 
-    else:
-        return False
 
-
-def recuperarsenha(bancodedados):
+def recuperar_senha(bancodedados):
     email = str(input('Digite o seu e-mail: '))
 
+    # OBSERVAÇÃO: Através dessa função o usuario pode colocar uma senha já usada, CONSERTE ISSO!
     for usuario in bancodedados:
         if usuario['email'] == email:
             usuario['senha'] = str(input('Digite a sua nova senha: '))
+            while usuario['senha'] == '':
+                usuario['senha'] = str(input('Senha invalida! Digite outra senha: '))
+
             print('Senha atualizada com sucesso!')
             break
 

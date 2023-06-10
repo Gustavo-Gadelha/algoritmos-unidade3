@@ -1,36 +1,8 @@
-from projetorene import bancodedados
-from produtofunc import exibirproduto
-
-
-def buscar_produto_por_cliente():
-    pesquisa = str(input('Digite o nome do produto: '))
-    semelhantes = []
-
-    for usuario in bancodedados:
-        for produto in usuario['produtos']:
-            if produto[1].find(pesquisa) >= 0:
-                semelhantes.append(produto)
-
-                if produto[1] == pesquisa:
-                    semelhantes.clear()
-
-                    exibirproduto(produto)
-                    return produto
-
-    else:
-        print('Produto não encontrado!')
-        if len(semelhantes) > 0:
-            for produto in semelhantes:
-                exibirproduto(produto)
-
-        semelhantes.clear()
-
-
 def comprarproduto(comprador, mercadoria):
     pass
 
 
-def menucliente(usuario):
+def menu_cliente(usuario):
     escolha = -1
     while escolha != 0:
         print('\nMenu do cliente'
@@ -47,8 +19,8 @@ def menucliente(usuario):
             pass
 
         elif escolha == 2:
-            buscar_produto_por_cliente()
+            buscar_produto()
 
         elif escolha == 3:
-            produto = buscar_produto_por_cliente()
+            produto = buscar_produto()
             comprarproduto(usuario, produto)
