@@ -2,19 +2,19 @@ cod = 0
 
 
 def cadastrar_produto(usuario):
-    global cod
     nomeproduto = str(input('Digite o nome do produto: '))
-
     valorproduto = float(input('Digite o valor do produto: '))
-    while valorproduto <= 0:
-        valorproduto = float(input('O valor do produto deve ser maior que zero! Digite novamente: '))
-
     quantidade = int(input('Digite a quantidade de produto: '))
-    while quantidade <= 0:
-        quantidade = int(input('O quantidade deve ser um número maior que zero! Digite novamente: '))
-
     descript = str(input('Digite uma descrição do produto(ou aperte ENTER para ignorar): '))
 
+    while nomeproduto == '':
+        nomeproduto = str(input('O nome do produto não foi preenchido! Digite o nome do produto: '))
+    while valorproduto <= 0:
+        valorproduto = float(input('O valor do produto deve ser maior que zero! Digite novamente: '))
+    while quantidade <= 0:
+        quantidade = int(input('A quantidade deve ser maior que zero! Digite novamente: '))
+
+    global cod
     cod += 1
     produto = {'codigo': cod,
                'nome': nomeproduto,
@@ -29,7 +29,7 @@ def cadastrar_produto(usuario):
 def exibir_produto(produto):
     print(f"COD: {produto['codigo']:0>3} - "
           f"Nome: {produto['nome']:<16} - "
-          f"Valor: R$ {produto['valor']:<10.2f} - "
+          f"Valor: R$ {produto['valor']:<6.2f} - "
           f"Quantidade: {produto['quantidade']:0>3} - ", end="")
 
     if not produto['descrição'] == '':
@@ -39,41 +39,41 @@ def exibir_produto(produto):
 
 
 def buscar_produto(usuario):
-    op = int(input('Digite 1 para pesquisar pelo nome ou 2 para pesquisar pelo codigo: '))
-    while op != 1 and op != 2:
-        op = int(input('Opção inválida, digite novamente: '))
+    escolha = int(input('\nDigite 1 para pesquisar pelo nome ou 2 para pesquisar pelo codigo: '))
+    while escolha != 1 and escolha != 2:
+        escolha = int(input('Opção inválida, digite novamente: '))
 
-    if op == 1:
-        nome = str(input('Digite o nome do produto: '))
+    if escolha == 1:
+        nome_busca = str(input('Digite o nome do produto: '))
         semelhantes = list()
 
         for produto in usuario['produtos']:
-            if produto['nome'].find(nome) >= 0:
+            if produto['nome'] == nome_busca:
+                print('Produto encontrado!')
+                exibir_produto(produto)
+                return produto
+
+            if produto['nome'].find(nome_busca) >= 0:
                 semelhantes.append(produto)
 
-                if produto['nome'] == nome:
-                    print('\nProduto encontrado!')
-                    exibir_produto(produto)
-                    return produto
-
         else:
-            print('\nProduto não encontrado!')
+            print('Produto não encontrado!')
             if len(semelhantes) > 0:
                 print('Veja resultados semelhantes:')
                 for produto in semelhantes:
                     exibir_produto(produto)
 
-    elif op == 2:
-        codigo = int(input('Digite o codigo do produto: '))
+    elif escolha == 2:
+        codigo_busca = int(input('Digite o codigo do produto: '))
 
         for produto in usuario['produtos']:
-            if produto['codigo'] == codigo:
-                print('\nProduto encontrado!')
+            if produto['codigo'] == codigo_busca:
+                print('Produto encontrado!')
                 exibir_produto(produto)
                 return produto
 
         else:
-            print('\nProduto não encontrado!')
+            print('Produto não encontrado!')
 
 
 def alterar_valor(usuario):
@@ -86,7 +86,7 @@ def alterar_valor(usuario):
         print('Valor do produto alterado com sucesso!')
 
     else:
-        print('\nNenhum valor alterado!')
+        print('Nenhum valor alterado!')
 
 
 def remover_produto(usuario):
@@ -96,7 +96,7 @@ def remover_produto(usuario):
         print('Produto removido com sucesso!')
 
     else:
-        print('\nNenhum produto removido!')
+        print('Nenhum produto removido!')
 
 
 def menu_vendedor(usuario):
@@ -106,11 +106,12 @@ def menu_vendedor(usuario):
               '\n2. Buscar produto',
               '\n3. Remover produto',
               '\n4. Atualizar preço do produto',
+              '\n5. Exportar produtos para arquivo txt',
               '\n0. Voltar para o menu de acesso')
 
         escolha = int(input('\nSelecione a opção: '))
 
-        if escolha < 0 or escolha > 4:
+        if escolha < 0 or escolha > 5:
             print('Opção invalida!')
 
         elif escolha == 0:
@@ -127,3 +128,14 @@ def menu_vendedor(usuario):
 
         elif escolha == 4:
             alterar_valor(usuario)
+
+        elif escolha == 5:
+            with open('readme.txt', 'w') as documento:
+                for produto in usuario['produtos']:
+                    texto = f"COD: {produto['codigo']:0>3} - " \
+                            f"Nome: {produto['nome']:<16} - " \
+                            f"Valor: R$ {produto['valor']:<6.2f} - " \
+                            f"Quantidade: {produto['quantidade']:0>3}" \
+                            f"\n\tDescrição: {produto['descrição']}"
+
+                    documento.write(f'{texto}\n')
