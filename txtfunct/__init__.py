@@ -13,13 +13,3 @@ def exportar_txt(usuario):
 
         else:
             txt.close()
-
-
-def ler_txt(usuario):
-    # Observação: Causa erro se não houver documento txt
-    txt = open(f"logs/produtos_{usuario['email']}.txt", 'r')
-
-    for linha in txt.readlines():
-        print(linha, end='')
-
-    txt.close()

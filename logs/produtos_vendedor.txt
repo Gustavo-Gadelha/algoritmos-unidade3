@@ -1,5 +1,0 @@
-
-[2023-06-12 19:48:40.513645]COD: 001 - Nome: camisa           - Valor: R$ 10.00  - Quantidade: 003
-COD: 002 - Nome: chapeu           - Valor: R$ 15.00  - Quantidade: 005
-COD: 003 - Nome: sapato           - Valor: R$ 25.00  - Quantidade: 002
-COD: 004 - Nome: sandália         - Valor: R$ 5.00   - Quantidade: 001

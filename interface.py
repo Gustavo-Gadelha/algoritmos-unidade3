@@ -48,13 +48,12 @@ def menu_vendedor(usuario):
               '\n3. Remover produto',
               '\n4. Atualizar preço do produto',
               '\n5. Exportar produtos para arquivo txt',
-              '\n6. Ler arquivo txt do vendedor'
-              '\n7. Plotar grafico de produtos e quantidades'
+              '\n6. Plotar grafico de produtos e quantidades'
               '\n0. Voltar para o menu de acesso')
 
         escolha = int(input('\nSelecione a opção: '))
 
-        if escolha < 0 or escolha > 7:
+        if escolha < 0 or escolha > 6:
             print('Opção invalida!')
 
         elif escolha == 1:
@@ -73,9 +72,6 @@ def menu_vendedor(usuario):
             txt.exportar_txt(usuario)
 
         elif escolha == 6:
-            txt.ler_txt(usuario)
-
-        elif escolha == 7:
             vendor.plotar_grafico(usuario)
 
 
@@ -102,8 +98,8 @@ def menu_cliente(usuario):
             client.exibir_historico(usuario)
 
         elif escolha == 3:
-            consulta = str(input('Digite o nome do produto: '))
-            consultarchatgpt(consulta)
+            consulta, nulo = client.buscar_tudo()
+            print(consultarchatgpt(consulta['nome']))
 
         elif escolha == 4:
             deposito = float(input('Digite o valor do deposito: '))
