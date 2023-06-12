@@ -4,7 +4,7 @@ current_dateTime = datetime.now()
 
 def exportar_txt(usuario):
     with open(f"logs/produtos_{usuario['email']}.txt", 'a') as txt:
-        txt.write(f'\n[{current_dateTime}]')
+        txt.write(f'[{current_dateTime}]\n')
         for produto in usuario['produtos']:
             texto = f"COD: {produto['codigo']:0>3} - Nome: {produto['nome']:<16} - " \
                     f"Valor: R$ {produto['valor']:<6.2f} - Quantidade: {produto['quantidade']:0>3}"
