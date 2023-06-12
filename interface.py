@@ -4,7 +4,8 @@ import clientefunc as client
 from gpt import consultarchatgpt
 
 
-def menu_acesso(escolha=-1):
+def menu_acesso():
+    escolha = -1
     while escolha != 0:
         print('\nMenu de acesso',
               '\n1. Cadastrar usuário',
@@ -37,7 +38,8 @@ def menu_acesso(escolha=-1):
             user.recuperar_senha()
 
 
-def menu_vendedor(usuario, escolha=-1):
+def menu_vendedor(usuario):
+    escolha = -1
     while escolha != 0:
         print('\nMenu do vendedor - Saldo: {}'.format(usuario["saldo"]),
               '\n1. Cadastrar produto',
@@ -76,14 +78,15 @@ def menu_vendedor(usuario, escolha=-1):
             vendor.plotar_grafico(usuario)
 
 
-def menu_cliente(usuario, escolha=-1):
+def menu_cliente(usuario):
+    escolha = -1
     while escolha != 0:
         print('\nMenu do cliente - Saldo: {}'.format(usuario["saldo"]),
               '\n1. Comprar produto',
               '\n2. Listar histórico de compras',
               '\n3. Consultar o ChatGPT',
               '\n4. Fazer deposito',
-              '\n5. Fazer Saque',
+              '\n5. Fazer saque',
               '\n0. Voltar para o menu de acesso')
 
         escolha = int(input('\nSelecione a opção: '))

@@ -50,7 +50,7 @@ def buscar_produto(usuario):
 
         for produto in usuario['produtos']:
             if produto['nome'] == nome_busca:
-                print('Produto encontrado!')
+                print('Produto encontrado = ', end='')
                 exibir_produto(produto)
                 return produto
 
@@ -69,7 +69,7 @@ def buscar_produto(usuario):
 
         for produto in usuario['produtos']:
             if produto['codigo'] == codigo_busca:
-                print('Produto encontrado!')
+                print('Produto encontrado = ', end='')
                 exibir_produto(produto)
                 return produto
 
@@ -113,6 +113,7 @@ def exportar_txt(usuario):
 
 
 def ler_txt(usuario):
+    # Observação: Causa erro se não houver documento txt
     txt = open(f"logs/produtos_{usuario['email']}.txt", 'r')
 
     for linha in txt.readlines():

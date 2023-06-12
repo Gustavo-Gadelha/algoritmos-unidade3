@@ -13,7 +13,7 @@ def depositar(usuario, valor):
 
 
 def sacar(usuario, valor):
-    if valor <= usuario['saldo']:
+    if 0 <= valor <= usuario['saldo']:
         usuario['saldo'] -= valor
         return True
 
@@ -34,7 +34,7 @@ def buscar_tudo():
         for vendedor in bancodedados:
             for produto in vendedor['produtos']:
                 if produto['nome'] == nome_busca:
-                    print('Produto encontrado!')
+                    print('Produto encontrado = ', end='')
                     exibir_produto(produto)
                     return produto, vendedor
 
@@ -48,13 +48,15 @@ def buscar_tudo():
                 for produto in semelhantes:
                     exibir_produto(produto)
 
+            return None, None
+
     elif escolha == 2:
         descript_busca = str(input('Digite a descrição do produto: '))
 
         for vendedor in bancodedados:
             for produto in vendedor['produtos']:
                 if produto['descrição'] == descript_busca:
-                    print('Produto encontrado!')
+                    print('Produto encontrado = ', end='')
                     exibir_produto(produto)
                     return produto, vendedor
 
@@ -68,6 +70,8 @@ def buscar_tudo():
                 for produto in semelhantes:
                     exibir_produto(produto)
 
+            return None, None
+
 
 def comprar_produto(usuario):
     produto, vendedor = buscar_tudo()
@@ -79,8 +83,8 @@ def comprar_produto(usuario):
 
         if escolha.upper() == 'S':
             if produto in usuario['produtos']:
-                print('Usuários não podem comprar seus próprios produtos!!!')
-                return None
+                print('Usuários não podem comprar seus próprios produtos!')
+                return
 
             unidades = int(input('Digite quantas unidades deseja comprar: '))
             while unidades <= 0 or unidades > produto['quantidade']:

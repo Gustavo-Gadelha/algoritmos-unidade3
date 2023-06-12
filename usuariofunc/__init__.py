@@ -18,8 +18,7 @@ def cadastrar_usuario():
                 'nome': nome,
                 'produtos': [],
                 'saldo': 0,
-                'historico': [],
-                'token': None}
+                'historico': []}
 
     bancodedados.append(cadastro)
     print('Cadastro de usuário realizado com sucesso!')

@@ -6,8 +6,7 @@ bancodedados = [{'email': 'vendedor',
                               {'codigo': 3, 'nome': 'sapato', 'valor': 25, 'quantidade': 2, 'descrição': ''},
                               {'codigo': 4, 'nome': 'sandália', 'valor': 5, 'quantidade': 1, 'descrição': 'Fruta'}],
                  'saldo': 0,
-                 'historico': [],
-                 'token': None},
+                 'historico': []},
 
                 {'email': 'cliente',
                  'senha': '123',
@@ -15,5 +14,4 @@ bancodedados = [{'email': 'vendedor',
                  'produtos': [{'codigo': 5, 'nome': 'tenis', 'valor': 100, 'quantidade': 3, 'descrição': 'Azul'},
                               {'codigo': 6, 'nome': 'casa', 'valor': 150, 'quantidade': 5, 'descrição': ''}],
                  'saldo': 1000,
-                 'historico': [],
-                 'token': None}]
+                 'historico': []}]
