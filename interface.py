@@ -1,6 +1,7 @@
 import usuariofunc as user
 import vendedorfunc as vendor
 import clientefunc as client
+import txtfunct as txt
 from gpt import consultarchatgpt
 
 
@@ -69,10 +70,10 @@ def menu_vendedor(usuario):
             vendor.alterar_valor(usuario)
 
         elif escolha == 5:
-            vendor.exportar_txt(usuario)
+            txt.exportar_txt(usuario)
 
         elif escolha == 6:
-            vendor.ler_txt(usuario)
+            txt.ler_txt(usuario)
 
         elif escolha == 7:
             vendor.plotar_grafico(usuario)

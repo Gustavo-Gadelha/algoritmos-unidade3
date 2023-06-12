@@ -77,6 +77,16 @@ def buscar_produto(usuario):
             print('Produto não encontrado!')
 
 
+def remover_produto(usuario):
+    produto = buscar_produto(usuario)
+    if produto is not None:
+        usuario['produtos'].remove(produto)
+        print('Produto removido com sucesso!')
+
+    else:
+        print('Nenhum produto removido!')
+
+
 def alterar_valor(usuario):
     produto = buscar_produto(usuario)
     if produto is not None:
@@ -88,38 +98,6 @@ def alterar_valor(usuario):
 
     else:
         print('Nenhum valor alterado!')
-
-
-def remover_produto(usuario):
-    produto = buscar_produto(usuario)
-    if produto is not None:
-        usuario['produtos'].remove(produto)
-        print('Produto removido com sucesso!')
-
-    else:
-        print('Nenhum produto removido!')
-
-
-def exportar_txt(usuario):
-    with open(f"logs/produtos_{usuario['email']}.txt", 'a') as txt:
-        for produto in usuario['produtos']:
-            texto = f"COD: {produto['codigo']:0>3} - Nome: {produto['nome']:<16} - " \
-                    f"Valor: R$ {produto['valor']:<6.2f} - Quantidade: {produto['quantidade']:0>3}"
-
-            txt.write(f'{texto}\n')
-
-        else:
-            txt.close()
-
-
-def ler_txt(usuario):
-    # Observação: Causa erro se não houver documento txt
-    txt = open(f"logs/produtos_{usuario['email']}.txt", 'r')
-
-    for linha in txt.readlines():
-        print(linha, end='')
-
-    txt.close()
 
 
 def plotar_grafico(usuario):
