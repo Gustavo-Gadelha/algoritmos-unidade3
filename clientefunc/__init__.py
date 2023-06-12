@@ -1,10 +1,15 @@
 from bancodedados import *
-from produtofunc import exibir_produto
-from gpt import consultarchatgpt
+from vendedorfunc import exibir_produto
 
 
 def depositar(usuario, valor):
-    usuario['saldo'] += valor
+    if valor >= 0:
+        usuario['saldo'] += valor
+        return True
+
+    else:
+        print('O valor depositado deve ser maior ou igual a 0')
+        return False
 
 
 def sacar(usuario, valor):
@@ -15,6 +20,12 @@ def sacar(usuario, valor):
     else:
         print('Saldo insuficiente')
         return False
+
+
+def retornar_vendedor(produto):
+    for vendedor in bancodedados:
+        if produto in vendedor['produtos']:
+            return vendedor
 
 
 def buscar_tudo():
@@ -31,7 +42,7 @@ def buscar_tudo():
                 if produto['nome'] == nome_busca:
                     print('Produto encontrado!')
                     exibir_produto(produto)
-                    return produto, vendedor
+                    return produto
 
                 if produto['nome'].find(nome_busca) >= 0:
                     semelhantes.append(produto)
@@ -51,23 +62,23 @@ def buscar_tudo():
                 if produto['descrição'] == descript_busca:
                     print('Produto encontrado!')
                     exibir_produto(produto)
-                    return produto, vendedor
+                    return produto
 
                 if produto['descrição'].find(descript_busca) >= 0:
                     semelhantes.append(produto)
 
-            else:
-                print('Produto não encontrado!')
-                if len(semelhantes) > 0:
-                    print('Veja resultados semelhantes:')
-                    for produto in semelhantes:
-                        exibir_produto(produto)
+        else:
+            print('Produto não encontrado!')
+            if len(semelhantes) > 0:
+                print('Veja resultados semelhantes:')
+                for produto in semelhantes:
+                    exibir_produto(produto)
 
 
 def comprar_produto(usuario):
-    produto, vendedor = buscar_tudo()
+    produto = buscar_tudo()
 
-    if vendedor and produto:
+    if produto is not None:
         escolha = str(input('Deseja mesmo comprar esse produto? [s/n]: '))
         while escolha.upper() != 'S' and escolha.upper() != 'N':
             escolha = str(input('Opção inválida, digite novamente [s/n]: '))
@@ -81,6 +92,7 @@ def comprar_produto(usuario):
             while quantidade_compra <= 0 or quantidade_compra > produto['quantidade']:
                 quantidade_compra = int(input('Valor inválido! Digite novamente: '))
 
+            vendedor = retornar_vendedor(produto)
             valor_compra = produto['valor'] * quantidade_compra
             if sacar(usuario, valor_compra):
                 produto['quantidade'] -= quantidade_compra
@@ -90,6 +102,9 @@ def comprar_produto(usuario):
                 depositar(vendedor, valor_compra)
                 anexar_ao_historico(usuario, produto, quantidade_compra, valor_compra)
                 print('Compra realizada com sucesso!')
+
+    else:
+        print('Não foi possível comprar produtos!')
 
 
 def anexar_ao_historico(usuario, produto, quantidade, valor):
@@ -104,29 +119,3 @@ def exibir_historico(usuario):
 
     else:
         print('Nenhuma compra no histórico')
-
-
-def menu_cliente(usuario):
-    while True:
-        print('\nMenu do cliente - Saldo: {}'
-              '\n1. Comprar produto'
-              '\n2. Listar histórico de compras'
-              '\n3. Consultar o ChatGPT'
-              '\n0. Voltar para o menu de acesso'.format(usuario["saldo"]))
-
-        escolha = int(input('\nSelecione a opção: '))
-
-        if escolha < 0 or escolha > 3:
-            print('Opção invalida')
-
-        elif escolha == 0:
-            break
-
-        elif escolha == 1:
-            comprar_produto(usuario)
-
-        elif escolha == 2:
-            exibir_historico(usuario)
-
-        elif escolha == 3:
-            pass

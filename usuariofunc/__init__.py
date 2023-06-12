@@ -6,18 +6,12 @@ def cadastrar_usuario():
     senha = str(input('Digite sua senha: '))
     nome = str(input('Digite seu nome: '))
 
-    while email == '':
-        email = str(input('O e-mail não foi preenchido! Digite seu e-mail: '))
-    while senha == '':
-        senha = str(input('A senha não foi preenchida! Digite sua senha: '))
+    while email == '' or email in [user['email'] for user in bancodedados]:
+        email = str(input('E-mail inválido! Digite seu e-mail novamente: '))
+    while senha == '' or senha in [user['senha'] for user in bancodedados]:
+        senha = str(input('Senha inválida! Digite sua senha novamente: '))
     while nome == '':
-        nome = str(input('O nome não foi preenchido! Digite o seu nome: '))
-
-    for usuario in bancodedados:
-        while usuario['email'] == email:
-            email = str(input('Esse e-mail já está sendo usado! Digite outro e-mail: '))
-        while usuario['senha'] == senha:
-            senha = str(input('Essa senha já está sendo usada! Digite outra senha: '))
+        nome = str(input('O campo "nome" não foi preenchido! Digite o seu nome: '))
 
     cadastro = {'email': email,
                 'senha': senha,
@@ -58,15 +52,16 @@ def autenticar_login():
 def recuperar_senha():
     email = str(input('Digite o seu e-mail: '))
 
-    # OBSERVAÇÃO: Através dessa função o usuario pode colocar uma senha que já está em uso, CONSERTE ISSO!
     for usuario in bancodedados:
         if usuario['email'] == email:
-            usuario['senha'] = str(input('Digite a sua nova senha: '))
-            while usuario['senha'] == '' or usuario['senha']:
-                usuario['senha'] = str(input('A senha não foi preenchida! Digite sua senha: '))
+            nova_senha = str(input('Digite a sua nova senha: '))
+            while nova_senha == '' or nova_senha in [user['senha'] for user in bancodedados]:
+                nova_senha = str(input('A senha não foi preenchida! Digite sua senha: '))
 
-            print('Senha atualizada com sucesso!')
-            break
+            else:
+                usuario['senha'] = nova_senha
+                print('Senha atualizada com sucesso!')
+                break
 
     else:
         print('E-mail não encontrado!')

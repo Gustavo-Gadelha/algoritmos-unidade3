@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 cod = 0
 
 
@@ -78,7 +79,7 @@ def buscar_produto(usuario):
 
 def alterar_valor(usuario):
     produto = buscar_produto(usuario)
-    if produto:
+    if produto is not None:
         produto['valor'] = float(input('Digite o novo valor do produto: '))
         while produto['valor'] <= 0:
             produto['valor'] = float(input('O valor do produto deve ser maior que zero! Digite novamente: '))
@@ -91,7 +92,7 @@ def alterar_valor(usuario):
 
 def remover_produto(usuario):
     produto = buscar_produto(usuario)
-    if produto:
+    if produto is not None:
         usuario['produtos'].remove(produto)
         print('Produto removido com sucesso!')
 
@@ -99,43 +100,34 @@ def remover_produto(usuario):
         print('Nenhum produto removido!')
 
 
-def menu_vendedor(usuario):
-    while True:
-        print('\nMenu do vendedor',
-              '\n1. Cadastrar produto',
-              '\n2. Buscar produto',
-              '\n3. Remover produto',
-              '\n4. Atualizar preço do produto',
-              '\n5. Exportar produtos para arquivo txt',
-              '\n0. Voltar para o menu de acesso')
+def plotar_grafico(usuario):
+    produtos = list(produto['nome'] for produto in usuario['produtos'])
+    quantidades = list(produto['quantidade'] for produto in usuario['produtos'])
 
-        escolha = int(input('\nSelecione a opção: '))
+    plt.figure(figsize=(10, 5))
+    plt.bar(produtos, quantidades, color='maroon', width=0.4)
+    plt.xlabel('Produtos')
+    plt.ylabel('Quantidade')
+    plt.title('Gráfico')
+    plt.show()
 
-        if escolha < 0 or escolha > 5:
-            print('Opção invalida!')
 
-        elif escolha == 0:
-            break
+def exportar_txt(usuario):
+    with open(f"logs/produtos_{usuario['email']}.txt", 'a') as txt:
+        for produto in usuario['produtos']:
+            texto = f"COD: {produto['codigo']:0>3} - Nome: {produto['nome']:<16} - " \
+                    f"Valor: R$ {produto['valor']:<6.2f} - Quantidade: {produto['quantidade']:0>3}"
 
-        elif escolha == 1:
-            cadastrar_produto(usuario)
+            txt.write(f'{texto}\n')
 
-        elif escolha == 2:
-            buscar_produto(usuario)
+        else:
+            txt.close()
 
-        elif escolha == 3:
-            remover_produto(usuario)
 
-        elif escolha == 4:
-            alterar_valor(usuario)
+def ler_txt(usuario):
+    txt = open(f"logs/produtos_{usuario['email']}.txt", 'r')
 
-        elif escolha == 5:
-            with open('readme.txt', 'w') as documento:
-                for produto in usuario['produtos']:
-                    texto = f"COD: {produto['codigo']:0>3} - " \
-                            f"Nome: {produto['nome']:<16} - " \
-                            f"Valor: R$ {produto['valor']:<6.2f} - " \
-                            f"Quantidade: {produto['quantidade']:0>3}" \
-                            f"\n\tDescrição: {produto['descrição']}"
+    for linha in txt.readlines():
+        print(linha, end='')
 
-                    documento.write(f'{texto}\n')
+    txt.close()
