@@ -100,18 +100,6 @@ def remover_produto(usuario):
         print('Nenhum produto removido!')
 
 
-def plotar_grafico(usuario):
-    produtos = list(produto['nome'] for produto in usuario['produtos'])
-    quantidades = list(produto['quantidade'] for produto in usuario['produtos'])
-
-    plt.figure(figsize=(10, 5))
-    plt.bar(produtos, quantidades, color='maroon', width=0.4)
-    plt.xlabel('Produtos')
-    plt.ylabel('Quantidade')
-    plt.title('Gráfico')
-    plt.show()
-
-
 def exportar_txt(usuario):
     with open(f"logs/produtos_{usuario['email']}.txt", 'a') as txt:
         for produto in usuario['produtos']:
@@ -131,3 +119,15 @@ def ler_txt(usuario):
         print(linha, end='')
 
     txt.close()
+
+
+def plotar_grafico(usuario):
+    produtos = list(produto['nome'] for produto in usuario['produtos'])
+    quantidades = list(produto['quantidade'] for produto in usuario['produtos'])
+
+    plt.figure(figsize=(10, 5))
+    plt.bar(produtos, quantidades, color='maroon', width=0.4)
+    plt.xlabel('Produtos')
+    plt.ylabel('Quantidade')
+    plt.title('Gráfico')
+    plt.show()

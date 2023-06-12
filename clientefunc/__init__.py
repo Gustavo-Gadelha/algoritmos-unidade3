@@ -22,12 +22,6 @@ def sacar(usuario, valor):
         return False
 
 
-def retornar_vendedor(produto):
-    for vendedor in bancodedados:
-        if produto in vendedor['produtos']:
-            return vendedor
-
-
 def buscar_tudo():
     escolha = int(input('\nDigite 1 para pesquisar pelo nome ou 2 para pesquisar pela descrição: '))
     while escolha != 1 and escolha != 2:
@@ -42,7 +36,7 @@ def buscar_tudo():
                 if produto['nome'] == nome_busca:
                     print('Produto encontrado!')
                     exibir_produto(produto)
-                    return produto
+                    return produto, vendedor
 
                 if produto['nome'].find(nome_busca) >= 0:
                     semelhantes.append(produto)
@@ -62,7 +56,7 @@ def buscar_tudo():
                 if produto['descrição'] == descript_busca:
                     print('Produto encontrado!')
                     exibir_produto(produto)
-                    return produto
+                    return produto, vendedor
 
                 if produto['descrição'].find(descript_busca) >= 0:
                     semelhantes.append(produto)
@@ -76,9 +70,9 @@ def buscar_tudo():
 
 
 def comprar_produto(usuario):
-    produto = buscar_tudo()
+    produto, vendedor = buscar_tudo()
 
-    if produto is not None:
+    if produto is not None and vendedor is not None:
         escolha = str(input('Deseja mesmo comprar esse produto? [s/n]: '))
         while escolha.upper() != 'S' and escolha.upper() != 'N':
             escolha = str(input('Opção inválida, digite novamente [s/n]: '))
@@ -86,29 +80,29 @@ def comprar_produto(usuario):
         if escolha.upper() == 'S':
             if produto in usuario['produtos']:
                 print('Usuários não podem comprar seus próprios produtos!!!')
-                return
+                return None
 
-            quantidade_compra = int(input('Digite a quantidade que deseja comprar: '))
-            while quantidade_compra <= 0 or quantidade_compra > produto['quantidade']:
-                quantidade_compra = int(input('Valor inválido! Digite novamente: '))
+            unidades = int(input('Digite quantas unidades deseja comprar: '))
+            while unidades <= 0 or unidades > produto['quantidade']:
+                unidades = int(input('Valor inválido! Digite novamente: '))
+            else:
+                custo = produto['valor'] * unidades
 
-            vendedor = retornar_vendedor(produto)
-            valor_compra = produto['valor'] * quantidade_compra
-            if sacar(usuario, valor_compra):
-                produto['quantidade'] -= quantidade_compra
+            if sacar(usuario, custo):
+                produto['quantidade'] -= unidades
                 if produto['quantidade'] == 0:
                     vendedor['produtos'].remove(produto)
 
-                depositar(vendedor, valor_compra)
-                anexar_ao_historico(usuario, produto, quantidade_compra, valor_compra)
+                depositar(vendedor, custo)
+                anexar_ao_historico(usuario, produto, unidades, custo)
                 print('Compra realizada com sucesso!')
 
     else:
         print('Não foi possível comprar produtos!')
 
 
-def anexar_ao_historico(usuario, produto, quantidade, valor):
-    usuario['historico'].append(f"{quantidade} unidade(s) de {produto['nome']} por R$ {valor:<6.2f}")
+def anexar_ao_historico(usuario, produto, unidades, valor):
+    usuario['historico'].append(f"Compra de {unidades} unidade(s) de {produto['nome']} por R$ {valor:<6.2f}")
 
 
 def exibir_historico(usuario):

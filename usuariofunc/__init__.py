@@ -31,22 +31,10 @@ def autenticar_login():
 
     for usuario in bancodedados:
         if usuario['email'] == login and usuario['senha'] == senha:
-            print('\nVocê deseja acessar como:'
-                  '\n1. Cliente'
-                  '\n2. Vendedor')
-
-            escolha = int(input('\nDigite sua escolha: '))
-
-            while escolha != 1 and escolha != 2:
-                escolha = int(input('Opção inválida, digite novamente: '))
-
-            if escolha == 1:
-                usuario['token'] = 'cliente'
-
-            elif escolha == 2:
-                usuario['token'] = 'vendedor'
-
             return usuario
+
+    else:
+        print('E-mail ou senha não encontrados!')
 
 
 def recuperar_senha():
@@ -56,7 +44,7 @@ def recuperar_senha():
         if usuario['email'] == email:
             nova_senha = str(input('Digite a sua nova senha: '))
             while nova_senha == '' or nova_senha in [user['senha'] for user in bancodedados]:
-                nova_senha = str(input('A senha não foi preenchida! Digite sua senha: '))
+                nova_senha = str(input('Senha inválida! Digite sua senha novamente: '))
 
             else:
                 usuario['senha'] = nova_senha

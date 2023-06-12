@@ -8,13 +8,14 @@ def menu_acesso(escolha=-1):
     while escolha != 0:
         print('\nMenu de acesso',
               '\n1. Cadastrar usuário',
-              '\n2. Fazer Login',
-              '\n3. Redefinir senha',
+              '\n2. Acessar Menu do cliente',
+              '\n3. Acessar Menu do vendedor'
+              '\n4. Redefinir senha',
               '\n0. Fechar o programa')
 
         escolha = int(input('\nSelecione a opção: '))
 
-        if escolha < 0 or escolha > 3:
+        if escolha < 0 or escolha > 4:
             print('Opção invalida!')
 
         elif escolha == 1:
@@ -22,20 +23,17 @@ def menu_acesso(escolha=-1):
 
         elif escolha == 2:
             usuario = user.autenticar_login()
-
-            if usuario:
-                if usuario['token'] == 'cliente':
-                    print('Acesso liberado!')
-                    menu_cliente(usuario)
-
-                elif usuario['token'] == 'vendedor':
-                    print('Acesso liberado!')
-                    menu_vendedor(usuario)
-
-            else:
-                print('E-mail ou senha invalidos!')
+            if usuario is not None:
+                print('\nAcesso liberado!')
+                menu_cliente(usuario)
 
         elif escolha == 3:
+            usuario = user.autenticar_login()
+            if usuario is not None:
+                print('\nAcesso liberado!')
+                menu_vendedor(usuario)
+
+        elif escolha == 4:
             user.recuperar_senha()
 
 
