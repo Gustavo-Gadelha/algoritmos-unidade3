@@ -99,7 +99,8 @@ def menu_cliente(usuario):
 
         elif escolha == 3:
             consulta, nulo = client.buscar_tudo()
-            print(consultarchatgpt(consulta['nome']))
+            if consulta is not None:
+                print(consultarchatgpt(consulta['nome']))
 
         elif escolha == 4:
             deposito = float(input('Digite o valor do deposito: '))

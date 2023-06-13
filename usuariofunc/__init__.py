@@ -45,10 +45,9 @@ def recuperar_senha():
             while nova_senha == '' or nova_senha in [user['senha'] for user in bancodedados]:
                 nova_senha = str(input('Senha inválida! Digite sua senha novamente: '))
 
-            else:
-                usuario['senha'] = nova_senha
-                print('Senha atualizada com sucesso!')
-                break
+            usuario['senha'] = nova_senha
+            print('Senha atualizada com sucesso!')
+            break
 
     else:
         print('E-mail não encontrado!')
