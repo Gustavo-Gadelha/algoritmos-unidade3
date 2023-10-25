@@ -1,0 +1,2 @@
+[2023-06-13 19:46:27.560721]
+COD: 002 - Nome: cadeira          - Valor: R$ 100.00 - Quantidade: 002
